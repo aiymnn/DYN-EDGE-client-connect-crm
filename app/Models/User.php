@@ -52,6 +52,30 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
+    // filters
+    public function scopeFilter($query, array $filters)
+    {
+        // filter by name
+        $query->when($filters['name'] ?? null, function ($query, $name) {
+            $query->where('name', 'like', '%' . $name . '%');
+        });
+
+        // filter by email
+        $query->when($filters['email'] ?? null, function ($query, $email) {
+            $query->where('email', 'like', '%' . $email . '%');
+        });
+
+        // filter by phone
+        $query->when($filters['phone'] ?? null, function ($query, $phone) {
+            $query->where('phone', 'like', '%' . $phone . '%');
+        });
+
+        // filter by role
+        $query->when($filters['role'] ?? null, function ($query, $role) {
+            $query->where('role', '=', $role);
+        });
+    }
+
     public function isAdmin()
     {
         return $this->role === 'R01';
