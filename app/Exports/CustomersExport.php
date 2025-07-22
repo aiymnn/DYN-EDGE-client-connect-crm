@@ -21,8 +21,7 @@ class CustomersExport implements FromCollection, WithHeadings
 
     public function collection()
     {
-        $customers = Customer::query()
-            ->select(['id', 'name', 'email', 'phone', 'address', 'notes', 'created_at', 'deleted_at'])
+        $customers = Customer::select(['id', 'name', 'email', 'phone', 'address', 'notes', 'created_at', 'deleted_at'])
             ->withCount(['interactions', 'tickets'])
             ->filter($this->filters ?? [])
             ->latest()

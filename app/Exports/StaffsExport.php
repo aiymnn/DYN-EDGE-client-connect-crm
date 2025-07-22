@@ -20,8 +20,7 @@ class StaffsExport implements FromCollection, WithHeadings
 
     public function collection()
     {
-        $staffs = User::query()
-            ->where('role', 'R02')
+        $staffs = User::where('role', 'R02')
             ->withCount(['interactions', 'tickets'])
             ->filter($this->filters ?? [])
             ->withTrashed()

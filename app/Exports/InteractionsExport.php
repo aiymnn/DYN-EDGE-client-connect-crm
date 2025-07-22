@@ -21,8 +21,7 @@ class InteractionsExport implements FromCollection, WithHeadings
 
     public function collection()
     {
-        $interactions = Interaction::query()
-            ->with(['customer', 'staff'])
+        $interactions = Interaction::with(['customer', 'staff'])
             ->filter($this->filters ?? [])
             ->latest()
             ->get();

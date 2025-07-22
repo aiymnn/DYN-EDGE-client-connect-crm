@@ -20,8 +20,7 @@ class TicketsExport implements FromCollection, WithHeadings
 
     public function collection()
     {
-        $tickets = Ticket::query()
-            ->with(['customer', 'staff'])
+        $tickets = Ticket::with(['customer', 'staff'])
             ->filter($this->filters ?? [])
             ->latest()
             ->get();
