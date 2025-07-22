@@ -42,10 +42,18 @@
                         </div>
 
                         <div class="flex items-center gap-3">
-                            <button type="submit"
-                                class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-sm text-white hover:bg-blue-700 transition">
-                                Export Staff CSV
-                            </button>
+                            <div>
+                                <button type="submit" name="format" value="csv"
+                                    class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-sm text-white hover:bg-blue-700 transition">
+                                    Export Staff CSV
+                                </button>
+                            </div>
+                            <div>
+                                <button type="submit" name="format" value="pdf"
+                                    class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-sm text-white hover:bg-blue-700 transition">
+                                    Export Staff PDF
+                                </button>
+                            </div>
                             <a href="{{ route('reports.index') }}"
                                 class="inline-flex items-center px-4 py-2 bg-gray-200 border border-transparent rounded-md font-semibold text-sm text-gray-700 hover:bg-gray-300 transition">
                                 Reset
@@ -90,9 +98,16 @@
 
                         <div class="flex items-center gap-3">
                             <div>
-                                <button type="submit"
+                                <button type="submit" name="format" value="csv"
                                     class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-sm text-white hover:bg-blue-700 transition">
                                     Export Customer CSV
+                                </button>
+                            </div>
+                            {{-- Pdf --}}
+                            <div>
+                                <button type="submit" name="format" value="pdf"
+                                    class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-sm text-white hover:bg-blue-700 transition">
+                                    Export Customer PDF
                                 </button>
                             </div>
                             {{-- Reset Button --}}
@@ -138,7 +153,8 @@
                                 <option value="" {{ request('status') == '' ? 'selected' : '' }}>All</option>
                                 <option value="open" {{ request('status') == 'open' ? 'selected' : '' }}>Open
                                 </option>
-                                <option value="in_progress" {{ request('status') == 'in_progress' ? 'selected' : '' }}>
+                                <option value="in_progress"
+                                    {{ request('status') == 'in_progress' ? 'selected' : '' }}>
                                     In Progress</option>
                                 <option value="resolved" {{ request('status') == 'resolved' ? 'selected' : '' }}>
                                     Resolved</option>
@@ -179,9 +195,15 @@
 
                     <div class="flex items-center gap-3">
                         <div>
-                            <button type="submit"
+                            <button type="submit" name="format" value="csv"
                                 class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-sm text-white hover:bg-green-700 transition">
                                 Export Ticket CSV
+                            </button>
+                        </div>
+                        <div>
+                            <button type="submit" name="format" value="pdf"
+                                class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-sm text-white hover:bg-green-700 transition">
+                                Export Ticket PDF
                             </button>
                         </div>
                         {{-- Reset Button --}}
@@ -253,9 +275,15 @@
 
                     <div class="flex items-center gap-3">
                         <div>
-                            <button type="submit"
+                            <button type="submit" name="format" value="csv"
                                 class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-sm text-white hover:bg-indigo-700 transition">
                                 Export Interaction CSV
+                            </button>
+                        </div>
+                        <div>
+                            <button type="submit" name="format" value="pdf"
+                                class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-sm text-white hover:bg-indigo-700 transition">
+                                Export Interaction PDF
                             </button>
                         </div>
                         {{-- Reset Button --}}
