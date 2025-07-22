@@ -28,7 +28,7 @@ class InteractionsExport implements FromCollection, WithHeadings
 
         return $interactions->map(function ($interaction) {
             return [
-                'ID' => $interaction->id,
+                // 'ID' => $interaction->id,
                 'Customer Name' => $interaction->customer->name ?? '-',
                 'Staff Name' => $interaction->staff->name ?? '-',
                 'Type' => ucfirst($interaction->type),
@@ -42,7 +42,7 @@ class InteractionsExport implements FromCollection, WithHeadings
     public function headings(): array
     {
         return [
-            'ID',
+            // 'ID',
             'Customer Name',
             'Staff Name',
             'Type',

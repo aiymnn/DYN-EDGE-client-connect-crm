@@ -24,7 +24,7 @@ Route::resource('customers', CustomerController::class);
 Route::resource('interactions', InteractionController::class);
 Route::get('/interactions/search-customers', [InteractionController::class, 'searchCustomers']);
 
-//export csv
+//export csv & pdf
 Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
 Route::get('/reports/staffs/export', [ReportController::class, 'exportStaffs'])->name('reports.staffs.export');
 Route::get('/reports/customers/export', [ReportController::class, 'exportCustomers'])->name('reports.customers.export');

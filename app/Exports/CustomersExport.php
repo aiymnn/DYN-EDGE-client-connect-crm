@@ -21,7 +21,7 @@ class CustomersExport implements FromCollection, WithHeadings
 
     public function collection()
     {
-        $customers = Customer::select(['id', 'name', 'email', 'phone', 'address', 'notes', 'created_at', 'deleted_at'])
+        $customers = Customer::select(['id', 'name', 'id_number', 'email', 'phone', 'address', 'notes', 'created_at', 'deleted_at'])
             ->withCount(['interactions', 'tickets'])
             ->filter($this->filters ?? [])
             ->latest()
@@ -29,12 +29,13 @@ class CustomersExport implements FromCollection, WithHeadings
 
         return $customers->map(function ($customer) {
             return [
-                'ID' => $customer->id,
+                // 'ID' => $customer->id,
                 'Name' => $customer->name,
+                // 'IC Number' => $customer->id_number,
                 'Email' => $customer->email,
                 'Phone' => $customer->phone,
-                'Address' => $customer->address,
-                'Notes' => $customer->notes,
+                // 'Address' => $customer->address,
+                // 'Notes' => $customer->notes,
                 'Interactions Count' => $customer->interactions_count,
                 'Tickets Count' => $customer->tickets_count,
                 'Status' => $customer->deleted_at ? 'Inactive' : 'Active',
@@ -46,12 +47,13 @@ class CustomersExport implements FromCollection, WithHeadings
     public function headings(): array
     {
         return [
-            'ID',
+            // 'ID',
             'Name',
+            // 'IC Number',
             'Email',
             'Phone',
-            'Address',
-            'Notes',
+            // 'Address',
+            // 'Notes',
             'Interactions Count',
             'Tickets Count',
             'Status',
