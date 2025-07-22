@@ -37,6 +37,26 @@ class Customer extends Model
         $query->when($filters['phone'] ?? null, function ($query, $phone) {
             $query->where('phone', 'like', '%' . $phone . '%');
         });
+
+        // filter by created_from and created_to
+        if (!empty($filters['start_date']) && !empty($filters['end_date'])) {
+            $query->whereBetween('created_at', [$filters['start_date'], $filters['end_date']]);
+        } elseif (!empty($filters['start_date'])) {
+            $query->whereDate('created_at', '>=', $filters['start_date']);
+        } elseif (!empty($filters['end_date'])) {
+            $query->whereDate('created_at', '<=', $filters['end_date']);
+        }
+
+        // filter by status
+        if (!empty($filters['status'])) {
+            if ($filters['status'] === 'active') {
+                $query->whereNull('deleted_at');
+            } elseif ($filters['status'] === 'inactive') {
+                $query->onlyTrashed();
+            }
+        } else {
+            $query->withTrashed();
+        }
     }
 
     public function interactions()

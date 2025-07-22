@@ -49,6 +49,15 @@ class Interaction extends Model
                 $q->where('name', 'like', '%' . $staff . '%');
             });
         });
+
+        // filter start_date and end_date
+        $query->when($filters['start_date'] ?? null, function ($query, $start) {
+            $query->where('datetime', '>=', Carbon::parse($start)->startOfDay());
+        });
+
+        $query->when($filters['end_date'] ?? null, function ($query, $end) {
+            $query->where('datetime', '<=', Carbon::parse($end)->endOfDay());
+        });
     }
 
     public function customer()

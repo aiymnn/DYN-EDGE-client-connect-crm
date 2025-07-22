@@ -74,6 +74,24 @@ class User extends Authenticatable implements MustVerifyEmail
         $query->when($filters['role'] ?? null, function ($query, $role) {
             $query->where('role', '=', $role);
         });
+
+        // filter by created_at
+        $query->when($filters['start_date'] ?? null, function ($query, $start) {
+            $query->whereDate('created_at', '>=', $start);
+        });
+
+        $query->when($filters['end_date'] ?? null, function ($query, $end) {
+            $query->whereDate('created_at', '<=', $end);
+        });
+
+        // filter by status 
+        $query->when($filters['status'] ?? null, function ($query, $status) {
+            if ($status === 'active') {
+                $query->whereNull('deleted_at');
+            } elseif ($status === 'inactive') {
+                $query->whereNotNull('deleted_at');
+            }
+        });
     }
 
     public function isAdmin()
