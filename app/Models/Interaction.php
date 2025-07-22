@@ -58,6 +58,11 @@ class Interaction extends Model
         $query->when($filters['end_date'] ?? null, function ($query, $end) {
             $query->where('datetime', '<=', Carbon::parse($end)->endOfDay());
         });
+
+        // filter by staff_id
+        $query->when($filters['staff_id'] ?? null, function ($query, $staffId) {
+            $query->where('user_id', $staffId);
+        });
     }
 
     public function customer()

@@ -8,102 +8,104 @@
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                <h3 class="text-lg font-semibold mb-4 text-gray-800">Export Staff Report</h3>
+            @can('admin')
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-800">Export Staff Report</h3>
 
-                <form method="GET" action="{{ route('reports.staffs.export') }}" class="space-y-4">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                            <label for="start_date" class="block text-sm font-medium text-gray-700">Register Date
-                                (From)</label>
-                            <input type="date" name="start_date" id="start_date"
-                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
-                                value="{{ request('start_date') }}">
+                    <form method="GET" action="{{ route('reports.staffs.export') }}" class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label for="start_date" class="block text-sm font-medium text-gray-700">Register Date
+                                    (From)</label>
+                                <input type="date" name="start_date" id="start_date"
+                                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+                                    value="{{ request('start_date') }}">
+                            </div>
+                            <div>
+                                <label for="end_date" class="block text-sm font-medium text-gray-700">Register Date
+                                    (To)</label>
+                                <input type="date" name="end_date" id="end_date"
+                                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+                                    value="{{ request('end_date') }}">
+                            </div>
+                            <div>
+                                <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+                                <select name="status" id="status"
+                                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
+                                    <option value="" {{ request('status') == '' ? 'selected' : '' }}>All</option>
+                                    <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Active
+                                    </option>
+                                    <option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>
+                                        Inactive</option>
+                                </select>
+                            </div>
                         </div>
-                        <div>
-                            <label for="end_date" class="block text-sm font-medium text-gray-700">Register Date
-                                (To)</label>
-                            <input type="date" name="end_date" id="end_date"
-                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
-                                value="{{ request('end_date') }}">
-                        </div>
-                        <div>
-                            <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
-                            <select name="status" id="status"
-                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
-                                <option value="" {{ request('status') == '' ? 'selected' : '' }}>All</option>
-                                <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Active
-                                </option>
-                                <option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>
-                                    Inactive</option>
-                            </select>
-                        </div>
-                    </div>
 
-                    <div class="flex items-center gap-3">
-                        <button type="submit"
-                            class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-sm text-white hover:bg-blue-700 transition">
-                            Export Staff CSV
-                        </button>
-                        <a href="{{ route('reports.index') }}"
-                            class="inline-flex items-center px-4 py-2 bg-gray-200 border border-transparent rounded-md font-semibold text-sm text-gray-700 hover:bg-gray-300 transition">
-                            Reset
-                        </a>
-                    </div>
-                </form>
-            </div>
-
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 mt-6">
-                <h3 class="text-lg font-semibold mb-4 text-gray-800">Export Customer Report</h3>
-
-                <form method="GET" action="{{ route('reports.customers.export') }}" class="space-y-4">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                            <label for="start_date" class="block text-sm font-medium text-gray-700">
-                                Register Date (From)
-                            </label>
-                            <input type="date" name="start_date" id="start_date"
-                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
-                                value="{{ request('start_date') }}">
-                        </div>
-                        <div>
-                            <label for="end_date" class="block text-sm font-medium text-gray-700">
-                                Register Date (To)
-                            </label>
-                            <input type="date" name="end_date" id="end_date"
-                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
-                                value="{{ request('end_date') }}">
-                        </div>
-                        <div>
-                            <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
-                            <select name="status" id="status"
-                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
-                                <option value="" {{ request('status') == '' ? 'selected' : '' }}>All</option>
-                                <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Active
-                                </option>
-                                <option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>
-                                    Inactive</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="flex items-center gap-3">
-                        <div>
+                        <div class="flex items-center gap-3">
                             <button type="submit"
                                 class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-sm text-white hover:bg-blue-700 transition">
-                                Export Customer CSV
+                                Export Staff CSV
                             </button>
-                        </div>
-                        {{-- Reset Button --}}
-                        <div>
                             <a href="{{ route('reports.index') }}"
                                 class="inline-flex items-center px-4 py-2 bg-gray-200 border border-transparent rounded-md font-semibold text-sm text-gray-700 hover:bg-gray-300 transition">
                                 Reset
                             </a>
                         </div>
-                    </div>
-                </form>
-            </div>
+                    </form>
+                </div>
+
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 mt-6">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-800">Export Customer Report</h3>
+
+                    <form method="GET" action="{{ route('reports.customers.export') }}" class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label for="start_date" class="block text-sm font-medium text-gray-700">
+                                    Register Date (From)
+                                </label>
+                                <input type="date" name="start_date" id="start_date"
+                                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+                                    value="{{ request('start_date') }}">
+                            </div>
+                            <div>
+                                <label for="end_date" class="block text-sm font-medium text-gray-700">
+                                    Register Date (To)
+                                </label>
+                                <input type="date" name="end_date" id="end_date"
+                                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+                                    value="{{ request('end_date') }}">
+                            </div>
+                            <div>
+                                <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+                                <select name="status" id="status"
+                                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
+                                    <option value="" {{ request('status') == '' ? 'selected' : '' }}>All</option>
+                                    <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Active
+                                    </option>
+                                    <option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>
+                                        Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-3">
+                            <div>
+                                <button type="submit"
+                                    class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-sm text-white hover:bg-blue-700 transition">
+                                    Export Customer CSV
+                                </button>
+                            </div>
+                            {{-- Reset Button --}}
+                            <div>
+                                <a href="{{ route('reports.index') }}"
+                                    class="inline-flex items-center px-4 py-2 bg-gray-200 border border-transparent rounded-md font-semibold text-sm text-gray-700 hover:bg-gray-300 transition">
+                                    Reset
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            @endcan
 
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 mt-6">
                 <h3 class="text-lg font-semibold mb-4 text-gray-800">Export Ticket Report</h3>

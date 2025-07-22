@@ -62,6 +62,11 @@ class Ticket extends Model
                 $q->where('name', 'like', '%' . $staff . '%');
             });
         });
+
+        // filter by staff_id
+        $query->when($filters['staff_id'] ?? null, function ($query, $staffId) {
+            $query->where('user_id', $staffId);
+        });
     }
 
     public function customer()

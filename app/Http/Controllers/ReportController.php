@@ -24,7 +24,7 @@ class ReportController extends Controller
             'status',
         ]);
 
-        return Excel::download(new CustomersExport($filters), 'customers_report.xlsx');
+        return Excel::download(new CustomersExport($filters), 'customers_report_' . now()->format('Y-m-d_H-i-s') . '.xlsx');
     }
 
     public function exportTickets(Request $request)
@@ -37,7 +37,11 @@ class ReportController extends Controller
             'name',
         ]);
 
-        return Excel::download(new TicketsExport($filters), 'tickets_report.xlsx');
+        if (!auth()->user()->isAdmin()) {
+            $filters['staff_id'] = auth()->id();
+        }
+
+        return Excel::download(new TicketsExport($filters), 'tickets_report_' . now()->format('Y-m-d_H-i-s') . '.xlsx');
     }
 
     public function exportInteractions(Request $request)
@@ -50,12 +54,16 @@ class ReportController extends Controller
             'staff',
         ]);
 
-        return Excel::download(new InteractionsExport($filters), 'interactions_report.xlsx');
+        if (!auth()->user()->isAdmin()) {
+            $filters['staff_id'] = auth()->id();
+        }
+
+        return Excel::download(new InteractionsExport($filters), 'interactions_report_' . now()->format('Y-m-d_H-i-s') . '.xlsx');
     }
 
     public function exportStaffs(Request $request)
     {
         $filters = $request->only(['start_date', 'end_date', 'status']);
-        return Excel::download(new StaffsExport($filters), 'staffs_report.xlsx');
+        return Excel::download(new StaffsExport($filters), 'staffs_report_' . now()->format('Y-m-d_H-i-s') . '.xlsx');
     }
 }
