@@ -86,6 +86,7 @@
                                 <th class="px-3 py-2">Email</th>
                                 <th class="px-3 py-2">Phone</th>
                                 <th class="px-3 py-2">Role</th>
+                                <th class="px-3 py-2">Status</th>
                                 <th class="px-3 py-2">Actions</th>
                             </tr>
                         </thead>
@@ -99,8 +100,16 @@
                                     <td class="px-3 py-2 capitalize">
                                         {{ $staff->role === 'R01' ? 'Admin' : 'Staff' }}
                                     </td>
+                                    <td class="px-3 py-2">
+                                        <span
+                                            class="px-2 py-1 rounded
+                                            @if ($staff->deleted_at) bg-red-100 text-red-800
+                                            @else bg-green-100 text-green-800 @endif">
+                                            {{ $staff->deleted_at ? 'Inactive' : 'Active' }}
+                                        </span>
+                                    </td>
                                     <td class="px-3 py-2 space-x-1">
-                                        <a href="{{ route('users.show', ['user' => $staff]) }}">
+                                        <a href="{{ route('users.show', ['user' => $staff->id]) }}">
                                             <button
                                                 class="px-4 py-2 bg-green-500 text-white text-sm font-semibold rounded hover:bg-green-600 transition">
                                                 View
@@ -108,8 +117,8 @@
                                         </a>
                                         @can('admin')
                                             <a href="{{ route('users.edit', ['user' => $staff]) }}">
-                                                <button
-                                                    class="px-4 py-2 bg-blue-500 text-white text-sm font-semibold rounded hover:bg-blue-600 transition">
+                                                <button @if ($staff->deleted_at) disabled @endif
+                                                    class="disabled:opacity-50 disabled:cursor-not-allowed px-4 py-2 bg-blue-500 text-white text-sm font-semibold rounded hover:bg-blue-600 transition">
                                                     Edit
                                                 </button>
                                             </a>
@@ -117,8 +126,9 @@
                                                 class="inline">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" onclick="return confirm('Are you sure?')"
-                                                    class="px-4 py-2 bg-red-500 text-white text-sm font-semibold rounded hover:bg-red-600 transition">
+                                                <button @if ($staff->deleted_at) disabled @endif type="submit"
+                                                    onclick="return confirm('Are you sure?')"
+                                                    class="disabled:opacity-50 disabled:cursor-not-allowed px-4 py-2 bg-red-500 text-white text-sm font-semibold rounded hover:bg-red-600 transition">
                                                     Delete
                                                 </button>
                                             </form>

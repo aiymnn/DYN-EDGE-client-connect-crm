@@ -87,6 +87,7 @@
                                 <th class="px-3 py-2">Phone</th>
                                 {{-- <th class="px-3 py-2">Interactions</th> --}}
                                 {{-- <th class="px-3 py-2">Tickets</th> --}}
+                                <th class="px-3 py-2">Status</th>
                                 <th class="px-3 py-2">Actions</th>
                             </tr>
                         </thead>
@@ -100,18 +101,28 @@
                                     <td class="px-3 py-2">{{ $customer->phone }}</td>
                                     {{-- <td class="px-3 py-2">{{ $customer->interactions_count ?? 0 }}</td> --}}
                                     {{-- <td class="px-3 py-2">{{ $customer->tickets_count ?? 0 }}</td> --}}
+                                    <td class="px-3 py-2">
+                                        <span
+                                            class="px-2 py-1 rounded
+                                            @if ($customer->deleted_at) bg-red-100 text-red-800
+                                            @else bg-green-100 text-green-800 @endif">
+                                            {{ $customer->deleted_at ? 'Inactive' : 'Active' }}
+                                        </span>
+                                    </td>
                                     <td class="px-3 py-2 space-x-1">
-                                        <a href="{{ route('customers.show', $customer) }}"><button
+                                        <a href="{{ route('customers.show', ['customer' => $customer->id]) }}"><button
                                                 class="px-4 py-2 bg-green-500 text-white text-sm font-semibold rounded hover:bg-green-600 transition">View</button></a>
                                         {{-- @can('admin') --}}
                                         <a href="{{ route('customers.edit', $customer) }}"><button
-                                                class="px-4 py-2 bg-blue-500 text-white text-sm font-semibold rounded hover:bg-blue-600 transition">Edit</button></a>
+                                                @if ($customer->deleted_at) disabled @endif
+                                                class="disabled:opacity-50 disabled:cursor-not-allowed px-4 py-2 bg-blue-500 text-white text-sm font-semibold rounded hover:bg-blue-600 transition">Edit</button></a>
                                         <form action="{{ route('customers.destroy', $customer) }}" method="POST"
                                             class="inline">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" onclick="return confirm('Are you sure?')"
-                                                class="px-4 py-2 bg-red-500 text-white text-sm font-semibold rounded hover:bg-red-600 transition">
+                                            <button @if ($customer->deleted_at) disabled @endif type="submit"
+                                                onclick="return confirm('Are you sure?')"
+                                                class="disabled:opacity-50 disabled:cursor-not-allowed px-4 py-2 bg-red-500 text-white text-sm font-semibold rounded hover:bg-red-600 transition">
                                                 Delete
                                             </button>
                                         </form>

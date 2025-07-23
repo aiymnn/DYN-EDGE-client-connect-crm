@@ -94,6 +94,32 @@
                             {{ $customer->created_at ? $customer->created_at->format('d F Y, h:i A') : '-' }}
                         </span>
                     </div>
+                    <div class="flex flex-col sm:flex-row justify-between py-2">
+                        <span class="text-gray-600 font-medium w-full sm:w-1/3">Status</span>
+                        <span class="text-gray-900 w-full sm:w-2/3">
+                            <span
+                                class="px-2 py-1 rounded
+                                            @if ($customer->deleted_at) bg-red-100 text-red-800
+                                            @else bg-green-100 text-green-800 @endif">
+                                {{ $customer->deleted_at ? 'Inactive' : 'Active' }}
+                            </span>
+                        </span>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row justify-between py-2">
+                        @if ($customer->deleted_at)
+                            <form action="{{ route('customers.restore', ['customer' => $customer->id]) }}"
+                                method="POST"
+                                onsubmit="return confirm('Are you sure you want to activate this account?');"
+                                class="inline">
+                                @csrf
+                                <button type="submit"
+                                    class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold rounded-md shadow transition">
+                                    Activate this account
+                                </button>
+                            </form>
+                        @endif
+                    </div>
                 </div>
             </div>
 

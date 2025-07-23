@@ -15,9 +15,10 @@ class UserController extends Controller
         $entries = request()->input('entries', 10); // default 10
         $filters = request()->only(['name', 'email', 'phone']);
 
-        $staffs = User::where('role', 'R02')->select(['id', 'name', 'email', 'phone', 'role'])
+        $staffs = User::where('role', 'R02')->select(['id', 'name', 'email', 'phone', 'deleted_at'])
             ->filter($filters)
             ->latest()
+            ->withTrashed()
             ->paginate($entries)
             ->withQueryString();
 
@@ -64,9 +65,10 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show($user)
     {
-        $staff = User::select(['id', 'name', 'email', 'phone', 'role', 'created_at'])
+        $staff = User::withTrashed()
+            ->select(['id', 'name', 'email', 'phone', 'role', 'created_at', 'deleted_at'])
             ->withCount([
                 'interactions',
                 'tickets',
@@ -83,7 +85,9 @@ class UserController extends Controller
                     $query->where('status', 'closed');
                 },
             ])
-            ->findOrFail($user->id);
+            ->findOrFail($user);
+
+        return view('pages.staffs.show', compact('staff'));
 
         // dd($staff);
 
@@ -136,5 +140,17 @@ class UserController extends Controller
         $user->delete();
 
         return redirect()->route('users.index')->with('success', 'Staff deleted successfully.');
+    }
+
+    public function restore($user)
+    {
+        $user = User::withTrashed()->findOrFail($user);
+
+        if ($user->trashed()) {
+            $user->restore();
+            return redirect()->route('users.show', $user->id)->with('success', 'User account has been activated.');
+        }
+
+        return redirect()->route('users.show', $user->id)->with('info', 'User account is already active.');
     }
 }

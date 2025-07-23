@@ -15,7 +15,8 @@ class CustomerController extends Controller
         $entries = request()->input('entries', 10); // default 10
         $filters = request()->only(['name', 'email', 'phone']);
 
-        $customers = Customer::select(['id', 'name', 'email', 'phone'])
+        $customers = Customer::withTrashed()
+            ->select(['id', 'name', 'email', 'phone', 'deleted_at'])
             // ->withCount(['interactions', 'tickets'])
             ->filter($filters)
             ->latest()
@@ -58,9 +59,10 @@ class CustomerController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Customer $customer)
+    public function show($customer)
     {
-        $customer = Customer::select(['id', 'name', 'id_number', 'address', 'email', 'phone', 'notes', 'created_at'])
+        $customer = Customer::withTrashed()
+            ->select(['id', 'name', 'id_number', 'address', 'email', 'phone', 'notes', 'created_at', 'deleted_at'])
             ->withCount([
                 'interactions',
                 'tickets',
@@ -77,7 +79,7 @@ class CustomerController extends Controller
                     $query->where('status', 'closed');
                 },
             ])
-            ->findOrFail($customer->id);
+            ->findOrFail($customer);
 
         // dd($customer);
 
@@ -124,5 +126,17 @@ class CustomerController extends Controller
         $customer->delete();
 
         return redirect()->route('customers.index')->with('success', 'Customer deleted successfully.');
+    }
+
+    public function restore($customer)
+    {
+        $customer = Customer::withTrashed()->findOrFail($customer);
+
+        if ($customer->trashed()) {
+            $customer->restore();
+            return redirect()->route('customers.show', $customer->id)->with('success', 'customer account has been activated.');
+        }
+
+        return redirect()->route('customers.show', $customer->id)->with('info', 'Customer account is already active.');
     }
 }
