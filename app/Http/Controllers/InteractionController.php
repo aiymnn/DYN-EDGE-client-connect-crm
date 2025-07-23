@@ -23,7 +23,7 @@ class InteractionController extends Controller
         }
 
         $entries = request()->input('entries', 10);
-        $filters = request()->only(['name', 'type', 'date', 'staff']);
+        $filters = request()->only(['name', 'type', 'start_date', 'end_date', 'staff']);
 
         $interactions = $query->filter($filters)->paginate($entries);
 

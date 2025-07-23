@@ -41,20 +41,17 @@ class Ticket extends Model
             $query->where('priority', '=', $priority);
         });
 
-        //filter by created
-        $query->when($filters['created'] ?? null, function ($query, $created) {
-            $start = Carbon::parse($created)->startOfDay();
-            $end = Carbon::parse($created)->endOfDay();
-
-            $query->whereBetween('created_at', [$start, $end]);
-        });
-
         // filter by created_at (in_range)
-        $query->when(($filters['start_date'] ?? null) && ($filters['end_date'] ?? null), function ($query) use ($filters) {
-            $start = Carbon::parse($filters['start_date'])->startOfDay();
-            $end = Carbon::parse($filters['end_date'])->endOfDay();
-            $query->whereBetween('created_at', [$start, $end]);
+        $query->when($filters['start_date'] ?? null, function ($query, $startDate) {
+            $start = Carbon::parse($startDate)->startOfDay();
+            $query->where('created_at', '>=', $start);
         });
+
+        $query->when($filters['end_date'] ?? null, function ($query, $endDate) {
+            $end = Carbon::parse($endDate)->endOfDay();
+            $query->where('created_at', '<=', $end);
+        });
+
 
         //filter by staff's name
         $query->when($filters['staff'] ?? null, function ($query, $staff) {

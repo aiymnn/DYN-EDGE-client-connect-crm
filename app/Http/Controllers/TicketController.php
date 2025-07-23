@@ -24,7 +24,7 @@ class TicketController extends Controller
         }
 
         $entries = request()->input('entries', 10);
-        $filters = request()->only(['name', 'status', 'priority', 'created', 'staff']);
+        $filters = request()->only(['name', 'status', 'priority', 'start_date', 'end_date', 'staff']);
 
         $tickets = $query->filter($filters)->paginate($entries);
 
