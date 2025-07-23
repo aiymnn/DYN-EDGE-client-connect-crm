@@ -13,7 +13,7 @@
                 @can('admin')
                     <div class="flex-1 min-w-[200px] bg-white p-4 rounded shadow">
                         <div class="flex flex-col items-center justify-center h-full">
-                            <div class="text-sm text-gray-500">Staff</div>
+                            <div class="text-sm text-gray-500">Staffs</div>
                             <div class="text-2xl font-bold text-blue-700">{{ $totalStaff }}</div>
                         </div>
                     </div>
@@ -38,35 +38,38 @@
                 </div>
             </div>
 
-            <!-- Charts: Ticket Status & Interaction Types -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
-                <!-- Ticket Status Doughnut -->
-                <div class="bg-white p-4 rounded shadow">
-                    <h3 class="text-lg font-semibold text-gray-700 mb-2">Ticket Status Overview</h3>
-                    <canvas id="ticketStatusChart" class="w-full aspect-[4/3]"></canvas>
+            {{-- Check data for chart --}}
+            @if (array_sum(array_values($doughnutTicketStatusCounts)) > 0)
+                <!-- Charts: Ticket Status & Interaction Types -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+                    <!-- Ticket Status Doughnut -->
+                    <div class="bg-white p-4 rounded shadow">
+                        <h3 class="text-lg font-semibold text-gray-700 mb-2">Ticket Status Overview</h3>
+                        <canvas id="ticketStatusChart" class="w-full aspect-[4/3]"></canvas>
+                    </div>
+
+                    <!-- Interaction Type Doughnut -->
+                    <div class="bg-white p-4 rounded shadow">
+                        <h3 class="text-lg font-semibold text-gray-700 mb-2">Interactions by Type</h3>
+                        <canvas id="interactionTypeChart" class="w-full aspect-[4/3]"></canvas>
+                    </div>
                 </div>
 
-                <!-- Interaction Type Doughnut -->
-                <div class="bg-white p-4 rounded shadow">
-                    <h3 class="text-lg font-semibold text-gray-700 mb-2">Interactions by Type</h3>
-                    <canvas id="interactionTypeChart" class="w-full aspect-[4/3]"></canvas>
+                <!-- Bar Chart Row: Tickets Created Per Month with Year Filter -->
+                <div class="bg-white p-4 rounded shadow mb-3">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-lg font-semibold text-gray-700">Tickets Created Per Month</h3>
+                        <select id="yearFilter"
+                            class="min-w-20 border rounded px-3 py-1.5 text-sm focus:ring focus:ring-blue-200">
+                            @foreach ($availableYears as $year)
+                                <option value="{{ $year }}" @if ($year == $currentYear) selected @endif>
+                                    {{ $year }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <canvas id="ticketsPerMonthChart" class="w-full aspect-[4/3]"></canvas>
                 </div>
-            </div>
-
-            <!-- Bar Chart Row: Tickets Created Per Month with Year Filter -->
-            <div class="bg-white p-4 rounded shadow mb-3">
-                <div class="flex justify-between items-center mb-2">
-                    <h3 class="text-lg font-semibold text-gray-700">Tickets Created Per Month</h3>
-                    <select id="yearFilter"
-                        class="min-w-20 border rounded px-3 py-1.5 text-sm focus:ring focus:ring-blue-200">
-                        @foreach ($availableYears as $year)
-                            <option value="{{ $year }}" @if ($year == $currentYear) selected @endif>
-                                {{ $year }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <canvas id="ticketsPerMonthChart" class="w-full aspect-[4/3]"></canvas>
-            </div>
+            @endif
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <!-- Recent Interactions -->
@@ -249,6 +252,29 @@
     </div>
 
     <script>
+        // No data for chart:
+        const noDataPlugin = {
+            id: 'noData',
+            afterDraw(chart) {
+                const data = chart.data.datasets[0].data;
+                const hasData = data.some(value => value !== 0);
+                if (!hasData) {
+                    const ctx = chart.ctx;
+                    const {
+                        width,
+                        height
+                    } = chart;
+                    ctx.save();
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.font = '16px sans-serif';
+                    ctx.fillStyle = '#9ca3af'; // gray-400
+                    ctx.fillText('No Data Available', width / 2, height / 2);
+                    ctx.restore();
+                }
+            }
+        };
+
         // Doughnut Chart: Ticket Status
         const ctxTicketStatus = document.getElementById('ticketStatusChart').getContext('2d');
         const ticketStatusChart = new Chart(ctxTicketStatus, {
@@ -269,7 +295,8 @@
                         position: 'bottom'
                     }
                 }
-            }
+            },
+            plugins: [noDataPlugin],
         });
 
         // Doughnut Chart: Interaction Types
@@ -292,7 +319,8 @@
                         position: 'bottom'
                     }
                 }
-            }
+            },
+            plugins: [noDataPlugin],
         });
 
         // Bar Chart: Tickets Per Month
@@ -326,7 +354,8 @@
                         display: false
                     }
                 }
-            }
+            },
+            plugins: [noDataPlugin],
         });
 
         // Year Filter Event Listener
