@@ -8,73 +8,71 @@
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-            <div class="flex flex-col md:flex-row justify-between md:items-center mb-4 gap-2">
-                <form method="GET" action="{{ route('customers.index') }}"
-                    class="flex flex-col sm:flex-row sm:items-center gap-2 w-full md:w-auto">
+            <div class="flex flex-col gap-2 md:gap-4 mb-4">
 
-                    {{-- Filters --}}
-                    <div class="flex flex-col sm:flex-row sm:items-center gap-2 w-full md:w-auto">
-
-                        {{-- Entries --}}
-                        <div>
-                            <label for="entries" class="sr-only">Entries</label>
-                            <select id="entries" name="entries"
-                                class="block w-full sm:w-auto border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 text-sm">
-                                <option value="10" {{ request('entries') == 10 ? 'selected' : '' }}>10 entries
-                                </option>
-                                <option value="25" {{ request('entries') == 25 ? 'selected' : '' }}>25 entries
-                                </option>
-                                <option value="50" {{ request('entries') == 50 ? 'selected' : '' }}>50 entries
-                                </option>
-                            </select>
-                        </div>
-
-                        {{-- Search by Name --}}
-                        <div>
-                            <input type="text" name="name" placeholder="Search name"
-                                class="block w-full sm:w-auto border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 text-sm"
-                                value="{{ request('name') }}">
-                        </div>
-
-                        {{-- Search by Email --}}
-                        <div>
-                            <input type="text" name="email" placeholder="Search email"
-                                class="block w-full sm:w-auto border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 text-sm"
-                                value="{{ request('email') }}">
-                        </div>
-
-                        {{-- Search by Phone --}}
-                        <div>
-                            <input type="text" name="phone" placeholder="Search phone"
-                                class="block w-full sm:w-auto border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 text-sm"
-                                value="{{ request('phone') }}">
-                        </div>
-
-                        {{-- Submit Button --}}
-                        <div>
-                            <button type="submit"
-                                class="px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-md shadow hover:bg-blue-700 transition">
-                                Filter
-                            </button>
-                        </div>
-
-                        {{-- Reset Button --}}
-                        <div>
-                            <a href="{{ route('customers.index') }}"
-                                class="px-4 py-2 bg-gray-200 text-gray-700 text-sm font-semibold rounded-md shadow hover:bg-gray-300 transition">
-                                Reset
-                            </a>
-                        </div>
-                    </div>
-                </form>
-
-                {{-- New Button --}}
-                <div>
+                {{-- New customer --}}
+                <div class="flex justify-end">
                     <a href="{{ route('customers.create') }}"
                         class="px-4 py-2 bg-white text-gray-700 text-sm font-semibold rounded-md shadow hover:bg-gray-100 transition">
                         New Customer
                     </a>
                 </div>
+
+                {{-- Filter Form --}}
+                <form method="GET" action="{{ route('customers.index') }}" class="flex flex-wrap gap-2">
+
+                    {{-- Entries --}}
+                    <div class="flex flex-col">
+                        <label for="entries" class="text-sm text-gray-600">Entries</label>
+                        <select id="entries" name="entries"
+                            class="block w-full sm:w-auto border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 text-sm">
+                            <option value="10" {{ request('entries') == 10 ? 'selected' : '' }}>10 entries</option>
+                            <option value="25" {{ request('entries') == 25 ? 'selected' : '' }}>25 entries</option>
+                            <option value="50" {{ request('entries') == 50 ? 'selected' : '' }}>50 entries</option>
+                        </select>
+                    </div>
+
+                    {{-- Name --}}
+                    <div class="flex flex-col">
+                        <label for="name" class="text-sm text-gray-600">Name</label>
+                        <input id="name" type="text" name="name" placeholder="Search name"
+                            class="block w-full sm:w-auto border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 text-sm"
+                            value="{{ request('name') }}">
+                    </div>
+
+                    {{-- Email --}}
+                    <div class="flex flex-col">
+                        <label for="email" class="text-sm text-gray-600">Email</label>
+                        <input id="email" type="text" name="email" placeholder="Search email"
+                            class="block w-full sm:w-auto border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 text-sm"
+                            value="{{ request('email') }}">
+                    </div>
+
+                    {{-- Phone --}}
+                    <div class="flex flex-col">
+                        <label for="phone" class="text-sm text-gray-600">Phone</label>
+                        <input id="phone" type="text" name="phone" placeholder="Search phone"
+                            class="block w-full sm:w-auto border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 text-sm"
+                            value="{{ request('phone') }}">
+                    </div>
+
+                    {{-- Filter Button --}}
+                    <div class="flex flex-col justify-end">
+                        <button type="submit"
+                            class="px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-md shadow hover:bg-blue-700 transition">
+                            Filter
+                        </button>
+                    </div>
+
+                    {{-- Reset Button --}}
+                    <div class="flex flex-col justify-end">
+                        <a href="{{ route('customers.index') }}"
+                            class="px-4 py-2 bg-gray-200 text-gray-700 text-sm font-semibold rounded-md shadow hover:bg-gray-300 transition">
+                            Reset
+                        </a>
+                    </div>
+
+                </form>
             </div>
 
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -105,19 +103,19 @@
                                     <td class="px-3 py-2 space-x-1">
                                         <a href="{{ route('customers.show', $customer) }}"><button
                                                 class="px-4 py-2 bg-green-500 text-white text-sm font-semibold rounded hover:bg-green-600 transition">View</button></a>
-                                        @can('admin')
-                                            <a href="{{ route('customers.edit', $customer) }}"><button
-                                                    class="px-4 py-2 bg-blue-500 text-white text-sm font-semibold rounded hover:bg-blue-600 transition">Edit</button></a>
-                                            <form action="{{ route('customers.destroy', $customer) }}" method="POST"
-                                                class="inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" onclick="return confirm('Are you sure?')"
-                                                    class="px-4 py-2 bg-red-500 text-white text-sm font-semibold rounded hover:bg-red-600 transition">
-                                                    Delete
-                                                </button>
-                                            </form>
-                                        @endcan
+                                        {{-- @can('admin') --}}
+                                        <a href="{{ route('customers.edit', $customer) }}"><button
+                                                class="px-4 py-2 bg-blue-500 text-white text-sm font-semibold rounded hover:bg-blue-600 transition">Edit</button></a>
+                                        <form action="{{ route('customers.destroy', $customer) }}" method="POST"
+                                            class="inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" onclick="return confirm('Are you sure?')"
+                                                class="px-4 py-2 bg-red-500 text-white text-sm font-semibold rounded hover:bg-red-600 transition">
+                                                Delete
+                                            </button>
+                                        </form>
+                                        {{-- @endcan --}}
                                     </td>
                                 </tr>
                             @endforeach

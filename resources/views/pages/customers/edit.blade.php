@@ -20,7 +20,8 @@
 
                     <h3 class="text-lg font-semibold mb-4 text-gray-800">New Customer</h3>
 
-                    <form action="{{ route('customers.update', $customer) }}" method="POST" class="space-y-4">
+                    <form action="{{ route('customers.update', $customer) }}" method="POST" class="space-y-4"
+                        x-data="{ loading: false }" x-on:submit="loading = true">
                         @csrf
                         @method('PUT')
                         <div class="flex flex-col md:flex-row md:gap-4">
@@ -93,8 +94,8 @@
 
                         <div class="flex justify-end">
                             <button type="submit"
-                                class="px-4 py-2 text-white bg-blue-600 text-sm font-semibold rounded-md shadow hover:bg-blue-700 transition">
-                                Update Customer
+                                class="px-4 py-2 text-white bg-blue-600 text-sm font-semibold rounded-md shadow hover:bg-blue-700 transition"
+                                x-text="loading ? 'Updating...' : 'Update'" x-bind:disabled="loading">
                             </button>
                         </div>
                     </form>

@@ -19,7 +19,8 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
 
-                    <form action="{{ route('interactions.update', $interaction) }}" method="POST" class="space-y-4">
+                    <form action="{{ route('interactions.update', $interaction) }}" method="POST" class="space-y-4"
+                        x-data="{ loading: false }" x-on:submit="loading = true">
                         @csrf
                         @method('PUT')
 
@@ -109,8 +110,8 @@
                         {{-- Submit Button --}}
                         <div class="flex justify-end">
                             <button type="submit"
-                                class="px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-md shadow hover:bg-blue-700 transition">
-                                Update Interaction
+                                class="px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-md shadow hover:bg-blue-700 transition"
+                                x-text="loading ? 'Updating...' : 'Update'" x-bind:disabled="loading">
                             </button>
                         </div>
                     </form>
