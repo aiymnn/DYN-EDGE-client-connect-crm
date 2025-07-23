@@ -151,6 +151,6 @@ class UserController extends Controller
             return redirect()->route('users.show', $user->id)->with('success', 'User account has been activated.');
         }
 
-        return redirect()->route('users.show', $user->id)->with('info', 'User account is already active.');
+        return redirect()->route('users.show', $user->id)->with('success', 'User account is already active.');
     }
 }

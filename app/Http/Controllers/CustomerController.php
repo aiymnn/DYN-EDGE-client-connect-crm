@@ -137,6 +137,6 @@ class CustomerController extends Controller
             return redirect()->route('customers.show', $customer->id)->with('success', 'customer account has been activated.');
         }
 
-        return redirect()->route('customers.show', $customer->id)->with('info', 'Customer account is already active.');
+        return redirect()->route('customers.show', $customer->id)->with('success', 'Customer account is already active.');
     }
 }
