@@ -10,34 +10,43 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
+// AJAX api
+// Route::get('/staffs/search', [UserController::class, 'search'])->name('staffs.search');
+// Route::get('/customers/search', [CustomerController::class, 'search'])->name('customers.search');
 
-Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::middleware(['auth', 'verified'])->group(function () {
 
-Route::resource('users', UserController::class);
-Route::resource('customers', CustomerController::class);
-Route::resource('interactions', InteractionController::class);
-Route::get('/interactions/search-customers', [InteractionController::class, 'searchCustomers']);
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-//export csv & pdf
-Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
-Route::get('/reports/staffs/export', [ReportController::class, 'exportStaffs'])->name('reports.staffs.export');
-Route::get('/reports/customers/export', [ReportController::class, 'exportCustomers'])->name('reports.customers.export');
-Route::get('/reports/tickets/export', [ReportController::class, 'exportTickets'])->name('reports.tickets.export');
-Route::get('/reports/interactions/export', [ReportController::class, 'exportInteractions'])->name('reports.interactions.export');
+    // Staffs
+    Route::resource('users', UserController::class);
+    Route::post('users/{user}/restore', [UserController::class, 'restore'])->name('users.restore');
 
-Route::resource('tickets', TicketController::class);
+    // Customers
+    Route::resource('customers', CustomerController::class);
+    Route::post('customers/{customer}/restore', [CustomerController::class, 'restore'])->name('customers.restore');
 
+    // Interactions
+    Route::resource('interactions', InteractionController::class);
 
-Route::middleware('auth')->group(function () {
+    // Tickets
+    Route::resource('tickets', TicketController::class);
+
+    // Export CSV & PDF
+    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::get('/reports/staffs/export', [ReportController::class, 'exportStaffs'])->name('reports.staffs.export');
+    Route::get('/reports/customers/export', [ReportController::class, 'exportCustomers'])->name('reports.customers.export');
+    Route::get('/reports/tickets/export', [ReportController::class, 'exportTickets'])->name('reports.tickets.export');
+    Route::get('/reports/interactions/export', [ReportController::class, 'exportInteractions'])->name('reports.interactions.export');
+
+    // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
 
 require __DIR__ . '/auth.php';
