@@ -68,11 +68,11 @@ class Ticket extends Model
 
     public function customer()
     {
-        return $this->belongsTo(Customer::class)->withTrashed();
+        return $this->belongsTo(Customer::class);
     }
 
     public function staff()
     {
-        return $this->belongsTo(User::class, 'user_id')->withTrashed();
+        return $this->belongsTo(User::class, 'user_id');
     }
 }
