@@ -13,7 +13,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $entries = request()->input('entries', 10); // default 10
-        $filters = request()->only(['name', 'email', 'phone']);
+        $filters = request()->only(['name', 'email', 'phone', 'status']);
 
         $staffs = User::where('role', 'R02')->select(['id', 'name', 'email', 'phone', 'deleted_at'])
             ->filter($filters)

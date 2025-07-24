@@ -185,8 +185,8 @@
                     </table>
 
                     @if ($tickets->hasPages())
-                        <div class="mt-6">
-                            {{ $tickets->links() }}
+                        <div>
+                            {{ $tickets->links('components.pagination.custom') }}
                         </div>
                     @endif
                 </div>

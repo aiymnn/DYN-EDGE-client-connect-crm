@@ -13,7 +13,7 @@ class CustomerController extends Controller
     public function index()
     {
         $entries = request()->input('entries', 10); // default 10
-        $filters = request()->only(['name', 'email', 'phone']);
+        $filters = request()->only(['name', 'email', 'phone', 'status']);
 
         $customers = Customer::withTrashed()
             ->select(['id', 'name', 'email', 'phone', 'deleted_at'])

@@ -115,7 +115,7 @@
                         <tbody class="bg-white">
                             @forelse ($interactions as $index => $interaction)
                                 <tr class="border-b">
-                                    <td class="px-3 py-2">{{ $index + 1 }}</td>
+                                    <td class="px-3 py-2">{{ $interactions->firstItem() + $index }}</td>
                                     <td class="px-3 py-2">{{ $interaction->customer->name ?? '-' }}</td>
                                     @can('admin')
                                         <td class="px-3 py-2">{{ $interaction->staff->name ?? '-' }}</td>
@@ -150,8 +150,8 @@
                     </table>
 
                     @if ($interactions->hasPages())
-                        <div class="mt-6">
-                            {{ $interactions->links() }}
+                        <div>
+                            {{ $interactions->links('components.pagination.custom') }}
                         </div>
                     @endif
                 </div>

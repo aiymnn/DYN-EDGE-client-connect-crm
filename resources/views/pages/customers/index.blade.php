@@ -56,6 +56,20 @@
                             value="{{ request('phone') }}">
                     </div>
 
+                    {{-- Status --}}
+                    <div class="flex flex-col">
+                        <label for="status" class="text-sm text-gray-600">Status</label>
+                        <select name="status" id="status"
+                            class="block w-full sm:w-auto border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 text-sm">
+                            <option value="" {{ request('status') == '' ? 'selected' : '' }}>-- All status --
+                            </option>
+                            <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Active
+                            </option>
+                            <option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>Inactive
+                            </option>
+                        </select>
+                    </div>
+
                     {{-- Filter Button --}}
                     <div class="flex flex-col justify-end">
                         <button type="submit"
@@ -94,7 +108,7 @@
                         <tbody class="bg-white">
                             @foreach ($customers as $index => $customer)
                                 <tr class="border-b">
-                                    <td class="px-3 py-2">{{ $index + 1 }}</td>
+                                    <td class="px-3 py-2">{{ $customers->firstItem() + $index }}</td>
                                     <td class="px-3 py-2">{{ $customer->name }}</td>
                                     {{-- <td class="px-3 py-2">{{ $customer->id_number }}</td> --}}
                                     <td class="px-3 py-2">{{ $customer->email }}</td>
@@ -134,8 +148,8 @@
                     </table>
 
                     @if ($customers->hasPages())
-                        <div class="mt-6">
-                            {{ $customers->links() }}
+                        <div>
+                            {{ $customers->links('components.pagination.custom') }}
                         </div>
                     @endif
                 </div>
