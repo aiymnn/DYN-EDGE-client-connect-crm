@@ -17,13 +17,15 @@ Route::get('/', function () {
 // Route::get('/staffs/search', [UserController::class, 'search'])->name('staffs.search');
 // Route::get('/customers/search', [CustomerController::class, 'search'])->name('customers.search');
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', 'role:R01,R02'])->group(function () {
 
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    // Staffs
-    Route::resource('users', UserController::class);
-    Route::post('users/{user}/restore', [UserController::class, 'restore'])->name('users.restore');
+    Route::middleware(['role:R01'])->group(function () {
+        // Staffs
+        Route::resource('users', UserController::class);
+        Route::post('users/{user}/restore', [UserController::class, 'restore'])->name('users.restore');
+    });
 
     // Customers
     Route::resource('customers', CustomerController::class);
