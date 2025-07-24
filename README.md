@@ -123,6 +123,41 @@ Uses [Mailtrap](https://mailtrap.io) for testing:
 
 ---
 
+## 🗄️ Database Dump for Easy Import
+
+For faster testing, you can import the provided database dump:
+
+- **Dump Location:** `docs/clientconnect_crm.sql`
+- Includes demo customers, staff, tickets, and interactions.
+
+### 🔑 Admin Login
+
+Use the following credentials:
+
+- **Email:** `admin@example.com`
+- **Password:** `password`
+
+---
+
+### 📥 Import Steps
+
+**Using TablePlus / DBeaver:**
+
+1️⃣ Create a new database, e.g., `clientconnect_crm`.
+
+2️⃣ Import `docs/clientconnect_crm.sql` into your database.
+
+3️⃣ Update your `.env` to match the database name and credentials:
+
+```env
+DB_DATABASE=clientconnect_crm
+DB_USERNAME=root
+DB_PASSWORD=
+
+```
+
+---
+
 ## 🚀 How to Clone & Setup
 
 To run this project locally:
