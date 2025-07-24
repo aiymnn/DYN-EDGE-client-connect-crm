@@ -129,15 +129,11 @@
                                                 class="px-4 py-2 bg-green-500 text-white text-sm font-semibold rounded hover:bg-green-600 transition">View</button></a>
                                         <a href="{{ route('interactions.edit', $interaction) }}"><button
                                                 class="px-4 py-2 bg-blue-500 text-white text-sm font-semibold rounded hover:bg-blue-600 transition">Edit</button></a>
-                                        <form action="{{ route('interactions.destroy', $interaction) }}" method="POST"
-                                            class="inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" onclick="return confirm('Are you sure?')"
-                                                class="px-4 py-2 bg-red-500 text-white text-sm font-semibold rounded hover:bg-red-600 transition">
-                                                Delete
-                                            </button>
-                                        </form>
+                                        <button
+                                            onclick="confirmDelete('{{ route('interactions.destroy', $interaction) }}')"
+                                            class="px-4 py-2 bg-red-500 text-white text-sm font-semibold rounded hover:bg-red-600 transition">
+                                            Delete
+                                        </button>
                                     </td>
                                 </tr>
                             @empty

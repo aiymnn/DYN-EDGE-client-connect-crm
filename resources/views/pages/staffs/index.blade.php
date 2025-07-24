@@ -136,16 +136,12 @@
                                                     Edit
                                                 </button>
                                             </a>
-                                            <form action="{{ route('users.destroy', ['user' => $staff]) }}" method="POST"
-                                                class="inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button @if ($staff->deleted_at) disabled @endif type="submit"
-                                                    onclick="return confirm('Are you sure?')"
-                                                    class="disabled:opacity-50 disabled:cursor-not-allowed px-4 py-2 bg-red-500 text-white text-sm font-semibold rounded hover:bg-red-600 transition">
-                                                    Delete
-                                                </button>
-                                            </form>
+                                            <button
+                                                onclick="confirmDelete('{{ route('users.destroy', ['user' => $staff]) }}')"
+                                                class="disabled:opacity-50 disabled:cursor-not-allowed px-4 py-2 bg-red-500 text-white text-sm font-semibold rounded hover:bg-red-600 transition"
+                                                @if ($staff->deleted_at) disabled @endif>
+                                                Delete
+                                            </button>
                                         @endcan
                                     </td>
                                 </tr>

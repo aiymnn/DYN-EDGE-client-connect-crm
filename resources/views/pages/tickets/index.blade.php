@@ -164,15 +164,10 @@
                                                 class="px-4 py-2 text-sm bg-green-500 text-white font-semibold rounded hover:bg-green-600 transition">View</button></a>
                                         <a href="{{ route('tickets.edit', $ticket) }}"><button
                                                 class="px-4 py-2 text-sm bg-blue-500 text-white font-semibold rounded hover:bg-blue-600 transition">Edit</button></a>
-                                        <form action="{{ route('tickets.destroy', $ticket) }}" method="POST"
-                                            class="inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" onclick="return confirm('Are you sure?')"
-                                                class="px-4 py-2 text-sm bg-red-500 text-white font-semibold rounded hover:bg-red-600 transition">
-                                                Delete
-                                            </button>
-                                        </form>
+                                        <button onclick="confirmDelete('{{ route('tickets.destroy', $ticket) }}')"
+                                            class="px-4 py-2 text-sm bg-red-500 text-white font-semibold rounded hover:bg-red-600 transition">
+                                            Delete
+                                        </button>
                                     </td>
                                 </tr>
                             @empty
