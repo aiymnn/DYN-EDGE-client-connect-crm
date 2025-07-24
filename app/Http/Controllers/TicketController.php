@@ -17,7 +17,10 @@ class TicketController extends Controller
         $statuses = ['open', 'resolved', 'in_progress', 'closed'];
         $priorities = ['low', 'medium', 'high'];
 
-        $query = Ticket::with(['customer', 'staff'])->latest();
+        $query = Ticket::query()
+            ->whereHas('customer')
+            ->whereHas('staff')
+            ->latest();
 
         if (!auth()->user()->isAdmin()) {
             $query->where('user_id', auth()->id());

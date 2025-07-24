@@ -16,7 +16,10 @@ class InteractionController extends Controller
     {
         $types = ['call', 'email', 'meeting', 'whatsapp'];
 
-        $query = Interaction::with('customer', 'staff')->latest();
+        $query = Interaction::query()
+            ->whereHas('customer')
+            ->whereHas('staff')
+            ->latest();
 
         if (!auth()->user()->isAdmin()) {
             $query->where('user_id', auth()->id());
